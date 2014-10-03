@@ -4,115 +4,147 @@ code
 /* Laura Tang (lt2510)
  * COMS W3134
  * Homework 1
- * Problem 1: Exercise 1.15
- * Main Class. Hardcode Rectangles to be compared here.
+ * Problem 2: Exercise 2.7b
+ * Main Class
 */
 
 import java.util.*;
 
-public class Problem1 {
+public class Problem2 {
 	
-    private Rectangle r1;
-    private Rectangle r2;
-    private Rectangle r3;
-    private Rectangle r4;
-    private Rectangle maxArea;
-    private Rectangle maxPerimeter;
+    private long startTime, endTime, elapsedTime;
+    private int sum;
+    private TimeInterval time;
 	
     public static void main(String[] args) {
-	//MANIPULATE RECTANGLES HERE
-	Rectangle r1 = new Rectangle(4,3);
-	Rectangle r2 = new Rectangle(9,9);
-	Rectangle r3 = new Rectangle(1,18);
-	Rectangle r4 = new Rectangle(2,5);
 		
-	//place them into an array
-	Rectangle[] arr = {r1, r2, r3, r4};
-		
-	//use findMax method
-	Rectangle maxArea = findMax(arr, new CompareArea());
-	Rectangle maxPerimeter = findMax(arr, new ComparePerimeter());
-			
-	//print out results
-	System.out.println("Rectangle of Max Area: "
-			  + maxArea.getLength() + "x" 
-			  + maxArea.getWidth());
-	System.out.println("Rectangle of Max Perimeter: "
-			  + maxPerimeter.getLength() + "x" 
-			  + maxPerimeter.getWidth());
-    }
-    
-    //findMax method
-    //takes in Rectangle[] and Comparator as parameters
-    public static <Rectangle>
-    Rectangle findMax(Rectangle [] arr, Comparator<? super Rectangle> cmp) {
-	int maxIndex = 0;
-	for (int i = 1; i<arr.length; i++) {
-	    if (cmp.compare(arr[i], arr[maxIndex]) > 0) {
-		maxIndex = i;
-	    }
+	//SET N VALUES HERE
+	//note that bigger values of n may
+	//cause the code to operate slowly
+	int[] n = {1, 2, 4, 8, 16};
+	
+	//loop that iterates through codes for values of n
+	for (int i = 0; i<=n.length-1; i++) {
+	    System.out.println("N = " + n[i] + " for code 1"
+				+ ": " + one(n[i]));
+	    System.out.println("N = " + n[i] + " for code 2"
+				+ ": " + two(n[i]));
+	    System.out.println("N = " + n[i] + " for code 3"
+				+ ": " + three(n[i]));
+	    System.out.println("N = " + n[i] + " for code 4"
+				+ ": " + four(n[i]));
+ 	    System.out.println("N = " + n[i] + " for code 5"
+				+ ": " + five(n[i]));
+	    System.out.println("N = " + n[i] + " for code 6"
+				+ ": " + six(n[i]));
+	    System.out.println();
 	}
-	return arr[maxIndex];
+    }
+
+    //code in separate methods below	
+    public static double one(int n) {
+	TimeInterval time = new TimeInterval();
+	time.startTiming();
+	int sum = 0;
+        for( int i = 0; i < n; i++ ) {
+            sum = sum + (int) Math.random();
+        }
+        time.endTiming();
+        return (time.getElapsedTime());
+    }
+	
+    public static double two(int n) {
+	TimeInterval time = new TimeInterval();
+	time.startTiming();
+	int sum = 0;
+        for( int i = 0; i < n; i++ ) {
+            for( int j = 0; j < n; j++ ) {
+                sum = sum + (int) Math.random();
+            }
+        }
+        time.endTiming();
+        return (time.getElapsedTime());
+    }
+	
+    public static double three(int n) {
+	TimeInterval time = new TimeInterval();
+	time.startTiming();
+	int sum = 0;
+        for( int i = 0; i < n; i++ ) {
+            for( int j = 0; j < (n * n); j++ ) {
+        	sum = sum + (int) Math.random();
+            }
+        }
+        time.endTiming();
+        return (time.getElapsedTime());
+    }
+	
+    public static double four(int n) {
+	TimeInterval time = new TimeInterval();
+	time.startTiming();
+	int sum = 0;
+        for( int i = 0; i < n; i++ ) {
+            for( int j = 0; j < i; j++ ) {
+        	sum = sum + (int) Math.random();
+            }
+        }
+        time.endTiming();
+        return (time.getElapsedTime());
+    }
+	
+    public static double five(int n) {
+	TimeInterval time = new TimeInterval();
+	time.startTiming();
+	int sum = 0;
+        for( int i = 0; i < n; i++ ) {
+            for( int j = 0; j < i * i; j++ ) {
+        	for( int k = 0; k < j; k++ ) {
+        	    sum = sum + (int) Math.random();
+        	}
+            }
+        }
+        time.endTiming();
+        return (time.getElapsedTime());
+    }
+	
+    public static double six(int n) {
+	TimeInterval time = new TimeInterval();
+	time.startTiming();
+	int sum = 0;
+        for( int i = 1; i < n; i++ ) {
+            for( int j = 1; j < i * i; j++ ) {
+                if ( j % i == 0) {
+        	    for( int k = 0; k < j; k++ ) {
+        		sum = sum + (int) Math.random();
+            	    }
+        	}
+            }
+        }
+        time.endTiming();
+        return (time.getElapsedTime());
     }
 	
 }
 
 ====
 
-class Rectangle {
-    private int l;
-    private int w;
+public class TimeInterval {
 	
-    public Rectangle(int l, int w) { 
-    //Rectangle constructor with two properties
-	this.l = l; //length
-	this.w = w; //width
-    }
-	
-    public int getLength() { //method to get length
-	return l;
-    }
+   private long startTime, endTime;
+   private long elapsedTime; // Time Interval in milliseconds
 
-    public int getWidth() { //method to get width
-	return w;
-    }
-	
+   public void startTiming() {
+      elapsedTime = 0;
+      startTime = System.currentTimeMillis();
+   }
+
+   public void endTiming() {
+      endTime = System.currentTimeMillis();
+      elapsedTime = endTime - startTime;
+   }
+
+   public double getElapsedTime() {
+      return (double) elapsedTime / 1000.0;
+   }
+
 }
-
-====
-
-import java.util.*;
-
-public class CompareArea implements Comparator<Rectangle> {
-	
-    //implementation of Comparator for area
-	
-    public int compare(Rectangle r1, Rectangle r2) {
-	int a = (r1.getLength()*r1.getWidth());
-	int b = (r2.getLength()*r2.getWidth());
-	if (a>b) {
-   	    return 1;
-	} else return -1;	
-    }
-	
-}
-
-====
-
-import java.util.*;
-
-public class ComparePerimeter implements Comparator<Rectangle> {
-	
-    //implementation of Comparator for Perimeter
-	
-    public int compare(Rectangle r1, Rectangle r2) {
-	int a = 2*(r1.getLength()+r1.getWidth());
-	int b = 2*(r2.getLength()+r2.getWidth());
-	if (a>b) {
-	    return 1;
-	} else return -1;		
-    }
-	
-}
-
-
